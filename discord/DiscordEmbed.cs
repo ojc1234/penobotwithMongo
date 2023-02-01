@@ -33,10 +33,10 @@ namespace penobotwithMongo.discord
             return eb;
 
         }
-        public EmbedBuilder MywordEmbed(List<string> inputs)
+        public EmbedBuilder MywordEmbed(List<Word> inputs)
         {
             var eb = new EmbedBuilder { Title = "나의단어" };
-            inputs.ForEach(i =>  eb.AddField("Myword", i) );
+            inputs.ForEach(i =>  eb.AddField(i.englishWord, i.mean) );
             eb.WithAuthor("노니#2196 클릭하면 초대되요", url: "https://discord.gg/QkdVQPNN");
             return eb;
 

@@ -21,6 +21,7 @@ namespace penobotwithMongo.discord
             _client.Log += Log;
             _client.Ready += Ready;
             _client.MessageReceived += new botMessage(_client).MessageReceivedAsync;
+            _client.ButtonExecuted += new AnswerChack(_client).MyButtonHandler;
         }
 
         public async Task MainAsync()

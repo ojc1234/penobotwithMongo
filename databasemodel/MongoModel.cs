@@ -64,7 +64,7 @@ namespace penobotwithMongo.databasemodel
 
             ObjectId id = cust1.Id;
         }
-        public List<string> DiscordfindEnglish(string UserId)
+        public List<Word> DiscordfindEnglish(string UserId)
         { // Mongo DB를 위한 Connection String
             string connString = "mongodb://localhost:27017";
 
@@ -82,8 +82,7 @@ namespace penobotwithMongo.databasemodel
             // INSERT - 컬렉션 객체의 Insert() 메서드 호출
             // Insert시 _id 라는 자동으로 ObjectID 생성 
             // 이 _id는 해당 다큐먼트는 나타는 키.
-            var ouput = customers.Find(new BsonDocument()).ToList().ConvertAll((i) => i.englishWord);
-            Console.WriteLine(customers.Find(new BsonDocument()).ToList().Count);
+            var ouput = customers.Find(new BsonDocument()).ToList();
 
             return ouput;
 

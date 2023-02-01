@@ -30,5 +30,8 @@ HtmlAgilityPack.NetCore
 
 3. 프로젝트 디렉토리에서 <b>dotnet build</b>를 입력하면 \bin\Debug\net7.0-windows 경로에 penodiscordbot.exe폴더가 있습니다 그파일을 실행하시면 디코봇이 작동합니다.
 </br>
-추가예정 단어를 디비를 통해 저장할수 있음
+추가예정 
+</br>
+단어를 디비를 통해 저장할수 있음
 디비에 있는 단어들을 통해 문제를 풀수 있음
+단어장 인베드 보낼 때 페이지 구현
