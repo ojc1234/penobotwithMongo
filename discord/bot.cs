@@ -10,11 +10,13 @@ namespace penobotwithMongo.discord
     {
         private readonly DiscordSocketClient _client;
 
+
         public bot()
         {
             var config = new DiscordSocketConfig()
             {
-                GatewayIntents = GatewayIntents.All
+                GatewayIntents = GatewayIntents.All,
+                UseInteractionSnowflakeDate = false
             };
             _client = new DiscordSocketClient(config);
 
