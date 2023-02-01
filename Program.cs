@@ -28,10 +28,24 @@ namespace penobotwithMongo
                 var martix2d = new matrix.Matrix(new List<int> { 1, 2 }, new List<int> { 3, 4 });
                 martix2d.Write();
             }
+            /* 몽고모델 테스트*/
             if (setting == 4)
             {
                 var dbtest = new MongoModel();
                 dbtest.inital();
+            }
+            if (setting == 5)
+            {
+                var ramdomIndex = new Random().Next(0, 4);
+                var ramdomArray = new List<int>();
+                for (int i = 0; ; i++)
+                {
+                    int ramdomInt0_4 = new Random().Next(0, 4);
+                    if (!ramdomArray.Contains(ramdomInt0_4)) ramdomArray.Add(ramdomInt0_4);
+                    if (ramdomArray.Count == 4) break;
+
+                }
+                ramdomArray.ForEach(Console.WriteLine);
             }
         }
     }

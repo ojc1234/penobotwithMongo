@@ -1,10 +1,10 @@
-﻿using Discord;
-using Discord.WebSocket;
+﻿using Discord.WebSocket;
 using penobotwithMongo.databasemodel;
 using penobotwithMongo.matrix;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 namespace penobotwithMongo.discord
 {
@@ -60,15 +60,34 @@ namespace penobotwithMongo.discord
             // 퀴즈 내기
             if (message.Content == "^")
             {
+
                 var DB = new MongoModel();
-                var QuizClass = new QuizBotton();
                 var WordList = DB.DiscordfindEnglish(message.Author.AvatarId);
-                var ramdomIndex = new Random().Next(0, WordList.Count);
-                var ramdomWord = WordList[ramdomIndex];
-                /*버튼 구현 */
-                var Quiz = QuizClass;
-                var outputText = $"단어 {ramdomWord.englishWord} 뜻 {ramdomWord.mean.Split(",")[0]/*첫번째 뜻만 가져오기*/}";
-                await message.Channel.SendMessageAsync(text: outputText, components: Quiz.BottonClass.Build());
+
+                if (WordList.Count < 4)
+                {
+                    await message.Channel.SendMessageAsync("단어수가 적습니다 최소 4개여야합니다");
+
+
+                }
+                else
+                {
+                    var ramdomArray = new List<int>();
+                    for (int i = 0; ; i++)
+                    {
+                        int ramdomInt0_4 = new Random().Next(0, WordList.Count);
+                        if (!ramdomArray.Contains(ramdomInt0_4)) ramdomArray.Add(ramdomInt0_4);
+                        if (ramdomArray.Count == 4) break;
+                    } //0번째가 정답 나머지는 오답
+                    var correctWord = WordList[ramdomArray[0]];
+                    /*버튼 구현 */
+                    WordList.RemoveAt(0); //오답들 리스트
+                    var worngWord = WordList.ConvertAll((i) => i.mean);
+                    var QuizClass = new QuizBotton(correctWord.mean, worngWord);
+                    var outputText = $"단어 {correctWord.englishWord}";
+
+                    await message.Channel.SendMessageAsync(text: outputText, components: QuizClass.BottonClass.Build());
+                }
 
             }
         }
