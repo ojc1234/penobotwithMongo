@@ -3,7 +3,6 @@ using penobotwithMongo.databasemodel;
 using penobotwithMongo.matrix;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -40,7 +39,7 @@ namespace penobotwithMongo.discord
                         mean = diction.mean,
                         phenomenon = diction.phenomenon.discordString(),
                     };
-                    DB.Discordinital();
+                    await DB.Discordinital();
                 }
             }
             //행렬 보기
@@ -65,9 +64,9 @@ namespace penobotwithMongo.discord
                 var DB = new MongoModel();
                 var WordList = DB.DiscordfindEnglish(message.Author.AvatarId);
 
-                if (WordList.Count < 4)
+                if (WordList.Count < 5)
                 {
-                    await message.Channel.SendMessageAsync("단어수가 적습니다 최소 4개여야합니다");
+                    await message.Channel.SendMessageAsync("단어수가 적습니다 최소 5개여야합니다");
 
 
                 }
@@ -81,8 +80,10 @@ namespace penobotwithMongo.discord
                         if (ramdomArray.Count == 4) break;
                     } //0번째가 정답 나머지는 오답
                     var correctWord = WordList[ramdomArray[0]];
+
                     /*버튼 구현 */
-                    WordList.RemoveAt(0); //오답들 리스트
+                    WordList.RemoveAt(ramdomArray[0]); //오답들 리스트
+                    
                     var worngWord = WordList.ConvertAll((i) => i.mean);
                     var QuizClass = new QuizBotton(correctWord.mean, worngWord);
                     var outputText = $"단어 {correctWord.englishWord}";

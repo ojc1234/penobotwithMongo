@@ -1,8 +1,8 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace penobotwithMongo.databasemodel
 {
@@ -35,7 +35,7 @@ namespace penobotwithMongo.databasemodel
 
             ObjectId id = cust1.Id;
         }
-        public void Discordinital()
+        public async Task Discordinital()
         { // Mongo DB를 위한 Connection String
             string connString = "mongodb://localhost:27017";
 
@@ -53,16 +53,21 @@ namespace penobotwithMongo.databasemodel
             // INSERT - 컬렉션 객체의 Insert() 메서드 호출
             // Insert시 _id 라는 자동으로 ObjectID 생성 
             // 이 _id는 해당 다큐먼트는 나타는 키.
-            Word cust1 = new Word
+            Word WordDocument = new Word
             {
                 englishWord = this.englishWord,
                 DiscordId = this.DiscordId,
                 phenomenon = this.phenomenon,
                 mean = this.mean
             };
-            customers.InsertOne(cust1);
+            if (!(await customers.Find(i => i.englishWord == englishWord).AnyAsync()))
+            {
+                await customers.InsertOneAsync(WordDocument);
+            }
 
-            ObjectId id = cust1.Id;
+            //await customers.ReplaceOneAsync(filter : new BsonDocument("englishWord",this.englishWord), options: new ReplaceOptions { IsUpsert = true }, replacement: WordDocument);
+
+            ObjectId id = WordDocument.Id;
         }
         public List<Word> DiscordfindEnglish(string UserId)
         { // Mongo DB를 위한 Connection String
