@@ -75,21 +75,28 @@ namespace penobotwithMongo.discord
         public AnswerChack(DiscordSocketClient client) { }
         public async Task MyButtonHandler(SocketMessageComponent component)
         {
-            switch (component.Data.CustomId)
+            try
             {
-                // Since we set our buttons custom id as 'custom-id', we can check for it like this:
-                case "correct":
-                    // Lets respond by sending a message saying they clicked the button
-                    await component.Channel.SendMessageAsync($"{component.User.Mention} 정답을 맞추셨습니다");
-                    var requestopt = new RequestOptions();
-                    requestopt.Timeout = 10000;
-                    requestopt.RatelimitCallback = ((i) => component.Channel.SendMessageAsync("시간끝"));
-                    await component.RespondAsync();
+                switch (component.Data.CustomId)
+                {
+                    // Since we set our buttons custom id as 'custom-id', we can check for it like this:
+                    case "correct":
+                        // Lets respond by sending a message saying they clicked the button
+                        await component.Channel.SendMessageAsync($"{component.User.Mention} 정답을 맞추셨습니다");
+                        var requestopt = new RequestOptions();
+                        requestopt.Timeout = 10000;
+                        requestopt.RatelimitCallback = ((i) => component.Channel.SendMessageAsync("시간끝"));
+                        await component.RespondAsync();
 
-                    break;
-                default:
-                    await component.RespondAsync("오답");
-                    break;
+                        break;
+                    default:
+                        await component.RespondAsync("오답");
+                        break;
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
         }
 

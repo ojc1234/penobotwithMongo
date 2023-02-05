@@ -107,6 +107,10 @@ namespace penobotwithMongo.discord
                     // 이거참고했음 https://discordnet.dev/api/Discord.Interactions.InteractionUtility.html
                     }
             }
+            if (message.Content == ",")
+            { 
+                await message.Channel.SendMessageAsync(embed: new DiscordEmbed()?.assistance().Build());
+            }
         }
         private async Task Fiveminwait(SocketMessage message)
         {
