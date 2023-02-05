@@ -2,6 +2,9 @@
 using Discord.WebSocket;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
+using System.Runtime.CompilerServices;
+
 namespace penobotwithMongo.discord
 {
     internal class OXcalcul
@@ -11,33 +14,58 @@ namespace penobotwithMongo.discord
 
     internal class QuizBotton
     {
-        public ComponentBuilder BottonClass;
         /// <summary>
         /// 퀴즈 버튼 기본 설계
         /// </summary>
         /// <param name="correctWord"></param>
         /// <param name="wrongWord"></param>
-        public QuizBotton(string correctWord, List<string> wrongWord)
+        public  ComponentBuilder QuizBottonDisable(string correctWord, List<string> wrongWord, bool disableset = false)
         {
             util.util ramdomList = new util.util();
             var list_5 = ramdomList.ramdomList(5);
             List<ComponentBuilder> words = new List<ComponentBuilder>();
-            this.BottonClass = new ComponentBuilder();
+            var BottonClass = new ComponentBuilder();
             list_5.ForEach(x =>
             {
                 if (x == 0)
                 {
-                    words.Add(BottonClass.WithButton(correctWord.Split(",")[0], "correct"));
+                    words.Add(BottonClass.WithButton(correctWord.Split(",")[0], "correct",disabled : disableset));
 
                 }
                 else
                 {
-                    BottonClass.WithButton(wrongWord[x].Split(",")[0], $"wrong{x}");
+                    BottonClass.WithButton(wrongWord[x].Split(",")[0], $"wrong{x}", disabled: disableset);
                 }
             }
+            
         );
 
+            return BottonClass;
 
+
+        }
+        public ComponentBuilder QuizBottonDisableColor(string correctWord, List<string> wrongWord, bool disableset = false)
+        {
+            util.util ramdomList = new util.util();
+            var list_5 = ramdomList.ramdomList(5);
+            List<ComponentBuilder> words = new List<ComponentBuilder>();
+            var BottonClass = new ComponentBuilder();
+            list_5.ForEach(x =>
+            {
+                if (x == 0)
+                {
+                    words.Add(BottonClass.WithButton(correctWord.Split(",")[0], "correct", disabled: disableset,style : ButtonStyle.Success));
+
+                }
+                else
+                {
+                    BottonClass.WithButton(wrongWord[x].Split(",")[0], $"wrong{x}", disabled: disableset,style:ButtonStyle.Danger);
+                }
+            }
+
+        );
+
+            return BottonClass;
 
 
         }

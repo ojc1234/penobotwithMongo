@@ -1,16 +1,23 @@
-﻿using Discord.WebSocket;
+﻿using Discord;
+using Discord.Commands;
+using Discord.Interactions;
+using Discord.Rest;
+using Discord.WebSocket;
 using penobotwithMongo.databasemodel;
 using penobotwithMongo.matrix;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 namespace penobotwithMongo.discord
 {
     internal class botMessage
     {
         private DiscordSocketClient _client;
+        private string correctWord;
+        private List<string> wrongWords;
         public botMessage(DiscordSocketClient client)
         {
             _client = client;
@@ -83,17 +90,36 @@ namespace penobotwithMongo.discord
 
                     /*버튼 구현 */
                     WordList.RemoveAt(ramdomArray[0]); //오답들 리스트
-                    
+
                     var worngWord = WordList.ConvertAll((i) => i.mean);
-                    var QuizClass = new QuizBotton(correctWord.mean, worngWord);
+                    var QuizClass = new QuizBotton();
+                    this.correctWord = correctWord.mean;
+                    this.wrongWords = worngWord;
+                    var BottonClass = QuizClass.QuizBottonDisable(correctWord.mean, worngWord);
                     var outputText = $"단어 {correctWord.englishWord}";
-
-                    await message.Channel.SendMessageAsync(text: outputText, components: QuizClass.BottonClass.Build());
-                }
-
-
-
+                    //비동기 대기를 통해서 문제 풀게 하기
+                    var requestopt = new RequestOptions();
+                    requestopt.Timeout = 50000;
+                    requestopt.RatelimitCallback = ((i) => message.Channel.SendMessageAsync("시간끝"));
+                    var text = await message.Channel.SendMessageAsync(text: outputText, components: BottonClass.Build());
+                    ProcessAsync("hello", text);
+                    //await Fiveminwait(message);
+                    // 이거참고했음 https://discordnet.dev/api/Discord.Interactions.InteractionUtility.html
+                    }
             }
+        }
+        private async Task Fiveminwait(SocketMessage message)
+        {
+            Thread.Sleep(5000);
+            await message.Channel.SendMessageAsync("5초 끝");
+        }
+        [Command("process", RunMode = Discord.Commands.RunMode.Async)]
+        private async Task ProcessAsync(string input, RestUserMessage text)
+        {
+            // Does heavy calculation here.
+            await Task.Delay(TimeSpan.FromSeconds(5));
+            var quizClass = new QuizBotton();
+            await text.ModifyAsync(msg => msg.Components = quizClass.QuizBottonDisableColor(correctWord,wrongWords,true).Build());
         }
     }
 }

@@ -17,6 +17,7 @@ namespace penobotwithMongo.discord
             {
                 GatewayIntents = GatewayIntents.All,
                 UseInteractionSnowflakeDate = false
+
             };
             _client = new DiscordSocketClient(config);
 
