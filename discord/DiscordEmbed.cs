@@ -50,9 +50,10 @@ namespace penobotwithMongo.discord
         {
             var eb = new EmbedBuilder { Title = "도움말" };
             eb.WithAuthor("노니#2196 클릭하면 초대되요", url: "https://discord.gg/QkdVQPNN");
-            eb.AddField("!", "!이후 단어를 검색 이후 자신에 디비에 단어 추가");
+            eb.AddField("!", "!이후 단어를 검색 후 자신에 디비에 단어 추가");
             eb.AddField("%", "자신의 단어 목록을 볼수 있다");
             eb.AddField("^", "자신의 디비에 있는 단어들로 문제를 풀수 있다");
+            eb.AddField(",", "도움말을 본다");
             return eb;
         }
     }
