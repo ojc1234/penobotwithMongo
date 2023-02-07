@@ -10,7 +10,7 @@ namespace penobotwithMongo
     {
         static void Main(string[] args)
         {
-            int setting = 0;
+            int setting = 6;
             if (setting == 0)
             {
                 new bot().MainAsync().GetAwaiter().GetResult();
@@ -46,6 +46,11 @@ namespace penobotwithMongo
 
                 }
                 ramdomArray.ForEach(Console.WriteLine);
+            }
+            if (setting == 6)
+            {
+                string token = Console.ReadLine();
+                new bot(token).MainAsync().GetAwaiter().GetResult();
             }
             
         }

@@ -4,15 +4,19 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using penobotwithMongo.config;
+using System.Transactions;
+using Microsoft.VisualBasic.Logging;
+
 namespace penobotwithMongo.discord
 {
     internal class bot
     {
-        private readonly DiscordSocketClient _client;
+        protected readonly DiscordSocketClient _client;
+        protected string token;
 
-
-        public bot()
+        public bot(string inputtoken = null)
         {
+            this.token = inputtoken;
             var config = new DiscordSocketConfig()
             {
                 GatewayIntents = GatewayIntents.All,
@@ -27,9 +31,9 @@ namespace penobotwithMongo.discord
             _client.ButtonExecuted += new AnswerChack(_client).MyButtonHandler;
         }
 
-        public async Task MainAsync()
+        virtual public async Task MainAsync()
         {
-            await _client.LoginAsync(TokenType.Bot, new token().discordtoken);
+            await _client.LoginAsync(TokenType.Bot, token ?? new token().discordtoken);
             await _client.StartAsync();
 
             await Task.Delay(-1);
@@ -50,4 +54,5 @@ namespace penobotwithMongo.discord
 
 
     }
+    
 }
