@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using penobotwithMongo.config;
 using System.Transactions;
-using Microsoft.VisualBasic.Logging;
 
 namespace penobotwithMongo.discord
 {
