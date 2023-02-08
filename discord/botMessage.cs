@@ -46,11 +46,11 @@ namespace penobotwithMongo.discord
                         mean = diction.mean,
                         phenomenon = diction.phenomenon.discordString(),
                     };
-                    await DB.Discordinital();
+                    //await DB.Discordinital();
                 }
             }
             //행렬 보기
-            if (message.Content.FirstOrDefault().ToString() == ".")
+            //if (message.Content.FirstOrDefault().ToString() == ".")
             {
                 string realMessage = message.Content.Remove(0, 1);
                 List<int> inputs = realMessage.Split(' ').ToList().ConvertAll((i) => int.Parse(i));
@@ -58,14 +58,14 @@ namespace penobotwithMongo.discord
                 await message.Channel.SendMessageAsync(embed: new DiscordEmbed()?.matrixEmbed(mat)?.Build());
             }
             // 나의 단어 보기
-            if (message.Content == "%")
+            //if (message.Content == "%")
             {
                 var DB = new MongoModel();
                 var WordList = DB.DiscordfindEnglish(message.Author.AvatarId);
                 await message.Channel.SendMessageAsync(embed: new DiscordEmbed()?.MywordEmbed(WordList)?.Build());
             }
             // 퀴즈 내기
-            if (message.Content == "^")
+            //if (message.Content == "^")
             {
 
                 var DB = new MongoModel();
@@ -107,7 +107,7 @@ namespace penobotwithMongo.discord
                     // 이거참고했음 https://discordnet.dev/api/Discord.Interactions.InteractionUtility.html
                     }
             }
-            if (message.Content == ",")
+            //if (message.Content == ",")
             { 
                 await message.Channel.SendMessageAsync(embed: new DiscordEmbed()?.assistance().Build());
             }
